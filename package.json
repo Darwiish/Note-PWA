@@ -3,13 +3,26 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.18",
+    "@fortawesome/free-solid-svg-icons": "^5.8.2",
+    "@fortawesome/react-fontawesome": "^0.1.4",
+    "axios": "^0.18.0",
+    "bootstrap": "^4.3.1",
+    "moment": "^2.24.0",
+    "mongoose": "^5.5.7",
+    "morgan": "^1.9.1",
     "react": "^16.8.6",
+    "react-bootstrap": "^1.0.0-beta.8",
+    "react-datepicker": "^2.5.0",
     "react-dom": "^16.8.6",
+    "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build-sw": "node ./src/sw-build.js",
+    "clean-cra-sw": "rm -f build/precache-manifest.*.js && rm -f build/service-worker.js",
+    "build": "react-scripts build && npm run build-sw",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -27,5 +40,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "workbox-build": "^4.3.1"
   }
 }
