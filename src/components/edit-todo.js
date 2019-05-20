@@ -4,19 +4,18 @@ import axios from "axios";
 class EditTodo extends Component {
   constructor(props) {
     super(props);
-
-    this.onChangeTodoDescription = this.onChangeTodoDescription.bind(this);
-    this.onChangeTodoResponsible = this.onChangeTodoResponsible.bind(this);
-    this.onChangeTodoPriority = this.onChangeTodoPriority.bind(this);
-    this.onChangeTodoCompleted = this.onChangeTodoCompleted.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-
     this.state = {
       todo_description: "",
       todo_responsible: "",
       todo_priority: "",
       todo_completed: false
     };
+
+    this.onChangeTodoDescription = this.onChangeTodoDescription.bind(this);
+    this.onChangeTodoResponsible = this.onChangeTodoResponsible.bind(this);
+    this.onChangeTodoPriority = this.onChangeTodoPriority.bind(this);
+    this.onChangeTodoCompleted = this.onChangeTodoCompleted.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -70,13 +69,12 @@ class EditTodo extends Component {
     console.log(obj);
     axios
       .post(
-        "http://localhost:4000/api/todos/update/" + this.props.match.params.id,
+        `http://localhost:4000/api/todos/update/${this.props.match.params.id}`,
         obj
       )
       .then(res => {
-        this.props.history.push("/")
+        this.props.history.push("/");
       });
-
   }
 
   render() {

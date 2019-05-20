@@ -70,7 +70,7 @@ app.post("/api/todos/add", (req, res) => {
   });
 });
 
-app.post("/api/update/:id", (req, res) => {
+app.post("/api/todos/update/:id", (req, res) => {
   Todo.findById(req.params.id, function(err, todo) {
     if (!todo) res.status(404).send("data is not found");
     else todo.todo_description = req.body.todo_description;

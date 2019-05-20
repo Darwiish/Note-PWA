@@ -2,29 +2,6 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-const Todo = props => (
-  <tr>
-    <td className={props.todo.todo_completed ? "completed" : ""}>
-      {props.todo.todo_description}
-    </td>
-    <td className={props.todo.todo_completed ? "completed" : ""}>
-      {props.todo.todo_responsible}
-    </td>
-    <td className={props.todo.todo_completed ? "completed" : ""}>
-      {props.todo.todo_priority}
-    </td>
-    <td>{props.todo.endDate}</td>
-    <td>
-      <Link to={"/edit/" + props.todo._id}>
-        <button className="btn btn-primary ">Edit</button>
-      </Link>
-    </td>
-     <td>
-      <button className="btn btn-danger">Delete</button>
-    </td> 
-  </tr>
-);
-
 class TodoList extends Component {
   constructor(props) {
     super(props);
@@ -40,20 +17,27 @@ class TodoList extends Component {
   }
   onSubmit(e) {
     e.preventDefault();
-    this.setState({
-    });
+    this.setState({});
   }
-  componentDidMount() {
+
+  onDelete(id) {
+    console.log(id)
+
     axios
-      .get("http://localhost:4000/delete/:id" + this.props.match.params.id)
+      .delete("http://localhost:4000/api/delete/" + id)
       .then(response => {
+        console.log('Success')
         this.setState({
-        delete: response.data.delete
+          delete: response.data.delete
         });
+        this.props.history.push("/");
       })
       .catch(function(error) {
         console.log(error);
       });
+  }
+
+  componentDidMount() {
     axios
       .get("http://localhost:4000/api/todos/")
       .then(response => {
@@ -63,11 +47,7 @@ class TodoList extends Component {
         console.log(error);
       });
   }
-  todoList() {
-    return this.state.todos.map(function(currentTodo, i) {
-      return <Todo todo={currentTodo} key={i} />;
-    });
-  }
+
   render() {
     return (
       <div>
@@ -82,7 +62,35 @@ class TodoList extends Component {
               <th>Action</th>
             </tr>
           </thead>
-          <tbody>{this.todoList()}</tbody>
+          <tbody>
+            {this.state.todos.map(item => (
+              <tr key={item._id}>
+                <td className={item.todo_completed ? "completed" : ""}>
+                  {item.todo_description}
+                </td>
+                <td className={item.todo_completed ? "completed" : ""}>
+                  {item.todo_responsible}
+                </td>
+                <td className={item.todo_completed ? "completed" : ""}>
+                  {item.todo_priority}
+                </td>
+                <td>{item.endDate}</td>
+                <td>
+                  <Link to={"/edit/" + item._id}>
+                    <button className="btn btn-primary ">Edit</button>
+                  </Link>
+                </td>
+                <td>
+                  <button
+                    onClick={this.onDelete(item._id)}
+                    className="btn btn-danger"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
         </table>
       </div>
     );
